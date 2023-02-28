@@ -4,6 +4,7 @@
 
 # hidden
 .env
+docs
 
 # Logs
 logs

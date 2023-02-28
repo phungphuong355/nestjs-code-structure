@@ -1,9 +1,10 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
+import { PinoLogger } from "nestjs-pino";
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {
-  constructor(private readonly _httpAdapterHost: HttpAdapterHost) {}
+  constructor(private _httpAdapterHost: HttpAdapterHost, private _logger: PinoLogger) {}
 
   public catch(exception: HttpException | Error, host: ArgumentsHost): void {
     // In certain situations `httpAdapter` might not be available in the
@@ -15,10 +16,19 @@ export class ExceptionsFilter implements ExceptionFilter {
     const httpStatus = this.getStatusCode(exception);
 
     const responseBody = {
-      respone: this.getHttpResponse(exception),
+      response: this.getHttpResponse(exception),
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
+
+    if (httpStatus === HttpStatus.INTERNAL_SERVER_ERROR) {
+      if (exception instanceof Error) {
+        this._logger.error(`${exception.message}: ${httpStatus}`, exception.stack);
+      } else {
+        // Error Notifications
+        this._logger.error("UnhandledException", exception);
+      }
+    }
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
@@ -28,6 +38,8 @@ export class ExceptionsFilter implements ExceptionFilter {
   }
 
   private getHttpResponse(exception: HttpException | Error) {
-    return exception instanceof HttpException ? exception : exception;
+    return exception instanceof HttpException
+      ? exception.getResponse()
+      : { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: exception.message, error: exception.name };
   }
 }

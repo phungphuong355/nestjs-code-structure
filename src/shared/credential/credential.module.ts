@@ -11,6 +11,8 @@ import { CredentialService } from "./credential.service";
         name: Credential.name,
         useFactory: () => {
           const schema = CredentialSchema;
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          schema.plugin(require("mongoose-autopopulate"));
           return schema;
         },
       },

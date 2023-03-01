@@ -1,14 +1,17 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { hash, genSalt, compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
 
 import { BlacklistService, CredentialService } from "../shared";
-import { CONSTANT_JWT } from "./auth.constant";
 import { SignInDto, SignUpDto } from "./dtos";
 
 @Injectable()
 export class AuthService {
-  constructor(private _credentialService: CredentialService, private _blacklistService: BlacklistService) {}
+  constructor(
+    private _credentialService: CredentialService,
+    private _blacklistService: BlacklistService,
+    private _jwtService: JwtService,
+  ) {}
 
   public async signUp(body: SignUpDto) {
     const usernames = await this._credentialService.findByUsername(body.username);
@@ -36,7 +39,7 @@ export class AuthService {
       throw new BadRequestException("Invalid login!!");
     }
 
-    const token = sign({ userId: user.userId }, CONSTANT_JWT.secret);
+    const token = this._jwtService.sign({ userId: user.userId });
 
     return { token };
   }

@@ -38,7 +38,7 @@ export class CredentialService {
     if (!credential) {
       throw new NotFoundException("Credential not found");
     }
-
+    // Soft delete
     credential.deleted = true;
 
     return credential.save();

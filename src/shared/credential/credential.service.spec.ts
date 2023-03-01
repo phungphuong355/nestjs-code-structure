@@ -24,7 +24,7 @@ describe("CredentialService", () => {
     service = module.get<CredentialService>(CredentialService);
   });
 
-  it("should be defined", () => {
+  test("should be defined", () => {
     expect(service).toBeDefined();
   });
 

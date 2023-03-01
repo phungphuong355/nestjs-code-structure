@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 
-import { CredentialModule } from "../shared";
+import { BlacklistModule, CredentialModule } from "../shared";
 import { AuthService } from "./auth.service";
 
 @Module({
-  imports: [CredentialModule],
+  imports: [CredentialModule, BlacklistModule],
   providers: [AuthService],
   exports: [AuthService],
 })

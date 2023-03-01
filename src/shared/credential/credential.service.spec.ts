@@ -13,7 +13,7 @@ describe("CredentialService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot("mongodb://localhost:27017/nestjs"),
+        MongooseModule.forRoot("mongodb://localhost:27017/test"),
         MongooseModule.forFeature([{ name: Credential.name, schema: CredentialSchema }]),
       ],
       providers: [CredentialService],

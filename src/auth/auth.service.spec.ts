@@ -12,7 +12,7 @@ describe("AuthService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot("mongodb://localhost:27017/nestjs"),
+        MongooseModule.forRoot("mongodb://localhost:27017/test"),
         MongooseModule.forFeature([{ name: Credential.name, schema: CredentialSchema }]),
         CredentialModule,
       ],
@@ -31,5 +31,10 @@ describe("AuthService", () => {
   test("signUp", async () => {
     const response = await service.signUp({ username: "phuongpt", password: "phuong3005", roles: ["ADM"] });
     expect(response.password).not.toEqual("phuong3005");
+  });
+
+  test("signIn", async () => {
+    const response = await service.signIn({ username: "phuongpt", password: "phuong3005" });
+    expect(response).toHaveProperty("token");
   });
 });

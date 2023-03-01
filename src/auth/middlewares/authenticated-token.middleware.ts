@@ -18,12 +18,12 @@ export class AuthenticatedToken implements NestMiddleware {
     try {
       const payload = await this._jwtService.verify(token, { secret: CONSTANT_JWT.secret });
 
-      const user = this._credentialService.read(payload.userId);
-      if (!user) {
+      const credential = await this._credentialService.read(payload.userId);
+      if (!credential) {
         throw new UnauthorizedException("Please Authorized!");
       }
 
-      req.credential = user;
+      req.credential = credential;
 
       req.token = token;
     } catch (error) {

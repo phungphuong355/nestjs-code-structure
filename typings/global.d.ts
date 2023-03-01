@@ -1,7 +1,9 @@
+import { Credential } from "../src/schema";
+
 export declare global {
   namespace Express {
     interface Request {
-      credential?: unknown;
+      credential?: Credential;
       token?: string;
     }
   }

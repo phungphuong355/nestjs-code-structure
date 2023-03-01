@@ -14,7 +14,7 @@ export const loggerOptions: Params = {
         target: "pino-pretty",
         options: {
           sync: true,
-          singleLine: true,
+          singleLine: false,
           colorize: true,
           levelFirst: true,
           ignore: "pid,hostname,service",

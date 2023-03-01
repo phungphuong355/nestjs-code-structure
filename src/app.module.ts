@@ -1,13 +1,14 @@
 import { Module, ValidationPipe } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_FILTER, APP_PIPE, RouterModule } from "@nestjs/core";
+import { APP_FILTER, APP_GUARD, APP_PIPE, RouterModule } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { LoggerModule } from "nestjs-pino";
 
 import { BaseModule } from "./base";
-import { ExceptionsFilter } from "./common";
+import { CommonModule, ExceptionsFilter, RolesGuard } from "./common";
 import { loggerOptions } from "./config";
+import { ModelModule } from "./model";
 
 @Module({
   imports: [
@@ -39,14 +40,16 @@ import { loggerOptions } from "./config";
     }),
     // Service Module
     BaseModule,
-    // CommonModule, // Global
-    // ModelModule,
+    CommonModule, // Global
+    ModelModule,
     // DebugModelModule,
     // Module Router
     // https://docs.nestjs.com/recipes/router-module
-    RouterModule.register([]),
+    RouterModule.register([{ path: "model", module: ModelModule }]),
   ],
   providers: [
+    // Global Guard, Authentication check on all routers
+    { provide: APP_GUARD, useClass: RolesGuard },
     // Global Filter, Exception check
     { provide: APP_FILTER, useClass: ExceptionsFilter },
     // Global Pipe, Validation check

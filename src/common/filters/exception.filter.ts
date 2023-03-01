@@ -17,7 +17,7 @@ export class ExceptionsFilter implements ExceptionFilter {
 
     const responseBody = {
       response: this.getHttpResponse(exception),
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
 

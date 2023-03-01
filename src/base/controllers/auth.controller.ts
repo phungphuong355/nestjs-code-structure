@@ -1,9 +1,12 @@
 import { Body, Controller, Get, HttpCode, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 
-import { AuthService, SignInDto, SignUpDto } from "../../auth";
+import { ReqCredential, Serialize } from "../../common";
+import { AuthDto, AuthService, SignInDto, SignUpDto } from "../../auth";
+import { Credential } from "../../schema";
 
 @Controller("api/v1")
+@Serialize(AuthDto)
 export class AuthController {
   constructor(private _authService: AuthService) {}
 
@@ -19,8 +22,8 @@ export class AuthController {
   }
 
   @Get("auth/profile")
-  public getProfile(@Req() req: Request) {
-    return req.credential;
+  public getProfile(@ReqCredential() credential: Credential) {
+    return credential;
   }
 
   @Post("auth/signout")

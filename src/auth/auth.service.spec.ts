@@ -1,8 +1,8 @@
 import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { Credential, CredentialSchema } from "../schema";
-import { CredentialModule } from "../shared";
+import { Blacklist, BlacklistSchema, Credential, CredentialSchema } from "../schema";
+import { BlacklistModule, CredentialModule } from "../shared";
 import { AuthService } from "./auth.service";
 import { cleanUpDb } from "../../test/util";
 
@@ -12,9 +12,11 @@ describe("AuthService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        CredentialModule,
+        BlacklistModule,
         MongooseModule.forRoot("mongodb://localhost:27017/test"),
         MongooseModule.forFeature([{ name: Credential.name, schema: CredentialSchema }]),
-        CredentialModule,
+        MongooseModule.forFeature([{ name: Blacklist.name, schema: BlacklistSchema }]),
       ],
       providers: [AuthService],
     }).compile();

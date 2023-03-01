@@ -5,7 +5,7 @@ export async function cleanUpDb() {
 
   await client.connect();
 
-  const db = client.db("nestjs");
+  const db = client.db("test");
 
   return db.dropDatabase();
 }

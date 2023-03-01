@@ -27,12 +27,14 @@ export class AuthModule implements NestModule {
       .exclude(
         { path: "api/v1/auth/signup", method: RequestMethod.POST },
         { path: "api/v1/auth/signin", method: RequestMethod.POST },
+        { path: "api/v1/health", method: RequestMethod.GET },
       )
       .forRoutes("*")
       .apply(AuthenticatedToken)
       .exclude(
         { path: "api/v1/auth/signup", method: RequestMethod.POST },
         { path: "api/v1/auth/signin", method: RequestMethod.POST },
+        { path: "api/v1/health", method: RequestMethod.GET },
       )
       .forRoutes("*");
   }

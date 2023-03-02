@@ -8,7 +8,7 @@ import { Blacklist, BlacklistDocument } from "../../schema";
 export class BlacklistService {
   constructor(@InjectModel(Blacklist.name) private _blacklist: Model<BlacklistDocument>) {}
 
-  public create(body: { token: string }) {
+  public create(body: Partial<Blacklist>) {
     const blacklist = new this._blacklist({ ...body });
 
     return this._blacklist.create(blacklist);

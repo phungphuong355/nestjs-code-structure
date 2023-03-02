@@ -7,7 +7,7 @@ export const CONSTANT_JWT = {
   token_length: 3,
 };
 
-export enum Roles {
+export enum ROLES {
   admin = "ADM",
   user = "USR",
 }

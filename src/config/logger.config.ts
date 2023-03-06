@@ -8,6 +8,7 @@ export const loggerOptions: Params = {
       // Change time value in production log.
       // timestamp: stdTimeFunctions.isoTime,
       quietReqLogger: true,
+      name: "Nestjs-code-structure",
       level: "debug",
       // https://github.com/pinojs/pino-pretty
       transport: {
@@ -17,7 +18,7 @@ export const loggerOptions: Params = {
           singleLine: false,
           colorize: true,
           levelFirst: true,
-          ignore: "pid,hostname,service",
+          ignore: "pid,hostname",
         },
       },
     },

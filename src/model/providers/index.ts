@@ -1,2 +1,2 @@
-export * from "./services";
-export * from "./verifies";
+export * from "./sample.serivce";
+export * from "./sample.verify";

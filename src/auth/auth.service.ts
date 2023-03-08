@@ -3,7 +3,8 @@ import { JwtService } from "@nestjs/jwt";
 import { hash, genSalt, compare } from "bcryptjs";
 
 import { BlacklistService, CredentialService } from "../shared";
-import { SignInDto, SignUpDto } from "./dtos";
+import { JwtPayload, Payload } from "./auth.interface";
+import { SignUpDto } from "./dtos";
 
 @Injectable()
 export class AuthService {
@@ -28,18 +29,24 @@ export class AuthService {
     return credential;
   }
 
-  public async signIn(body: SignInDto) {
-    const [user] = await this._credentialService.findByUsername(body.username);
+  public async validateUser(username: string, password: string) {
+    const [user] = await this._credentialService.findByUsername(username);
     if (!user) {
       throw new BadRequestException("Invalid login!");
     }
 
-    const isMatch = await compare(body.password, user.password);
+    const isMatch = await compare(password, user.password);
     if (!isMatch) {
       throw new BadRequestException("Invalid login!!");
     }
 
-    const token = this._jwtService.sign({ userId: user.userId });
+    return user;
+  }
+
+  public async signIn(user: Payload) {
+    const payload: JwtPayload = { sub: user.userId, username: user.username, roles: user.roles };
+
+    const token = this._jwtService.sign(payload);
 
     return { token };
   }

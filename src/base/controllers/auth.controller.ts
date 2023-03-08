@@ -1,9 +1,8 @@
-import { Body, Controller, Get, HttpCode, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
 import { Request } from "express";
 
 import { ReqUser, Serialize } from "../../common";
-import { AuthDto, AuthService, SignInDto, SignUpDto } from "../../auth";
-import { Credential } from "../../schema";
+import { AuthDto, AuthService, JwtAuthGuard, LocalAuthGuard, SignUpDto } from "../../auth";
 
 @Controller("api/v1")
 @Serialize(AuthDto)
@@ -15,14 +14,16 @@ export class AuthController {
     return this._authService.signUp(body);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post("auth/signin")
   @HttpCode(200)
-  public signIn(@Body() body: SignInDto) {
-    return this._authService.signIn(body);
+  public signIn(@ReqUser() user) {
+    return this._authService.signIn(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("auth/profile")
-  public getProfile(@ReqUser() user: Credential) {
+  public getProfile(@ReqUser() user) {
     return user;
   }
 

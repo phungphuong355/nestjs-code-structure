@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 
-import { ReqCredential, Serialize } from "../../common";
+import { ReqUser, Serialize } from "../../common";
 import { AuthDto, AuthService, SignInDto, SignUpDto } from "../../auth";
 import { Credential } from "../../schema";
 
@@ -22,8 +22,8 @@ export class AuthController {
   }
 
   @Get("auth/profile")
-  public getProfile(@ReqCredential() credential: Credential) {
-    return credential;
+  public getProfile(@ReqUser() user: Credential) {
+    return user;
   }
 
   @Post("auth/signout")

@@ -5,3 +5,4 @@ export * from "./auth.constant";
 export * from "./strategies";
 export * from "./guards";
 export * from "./auth.interface";
+export * from "./auth.serializer";

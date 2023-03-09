@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
 
 import { BlacklistModule, CredentialModule } from "../shared";
+import { AuthSerializer } from "./auth.serializer";
 import { AuthService } from "./auth.service";
 import { JwtStrategy, LocalStrategy } from "./strategies";
 
@@ -11,7 +11,6 @@ import { JwtStrategy, LocalStrategy } from "./strategies";
   imports: [
     CredentialModule,
     BlacklistModule,
-    PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -19,7 +18,7 @@ import { JwtStrategy, LocalStrategy } from "./strategies";
       }),
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, AuthSerializer, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

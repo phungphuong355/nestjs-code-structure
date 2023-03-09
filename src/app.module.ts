@@ -4,6 +4,7 @@ import { APP_FILTER, APP_GUARD, APP_PIPE, RouterModule } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { LoggerModule } from "nestjs-pino";
+import { JwtAuthGuard } from "./auth";
 
 import { BaseModule } from "./base";
 import { CommonModule, ExceptionsFilter, RolesGuard } from "./common";
@@ -49,6 +50,7 @@ import { ModelModule } from "./model";
   ],
   providers: [
     // Global Guard, Authentication check on all routers
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
     // Global Filter, Exception check
     { provide: APP_FILTER, useClass: ExceptionsFilter },

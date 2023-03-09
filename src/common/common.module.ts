@@ -1,10 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 
-import { LoggerContextMiddleware } from "./middlewares";
+import { BlacklistModule } from "../shared";
+import { LoggerContextMiddleware, TokenVerifyMiddleware } from "./middlewares";
 
-@Module({})
+@Module({
+  imports: [BlacklistModule],
+})
 export class CommonModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerContextMiddleware).forRoutes("*");
+    consumer.apply(LoggerContextMiddleware).forRoutes("*").apply(TokenVerifyMiddleware).forRoutes("*");
   }
 }

@@ -51,9 +51,9 @@ export class AuthService {
     return { access_token } as JwtSign;
   }
 
-  public signOut(token: string) {
-    const inputedToken = this._blacklistService.create({ token });
+  public async signOut(token: string) {
+    const inputedToken = await this._blacklistService.create({ token });
 
-    return inputedToken;
+    return { access_token: inputedToken.token } as JwtSign;
   }
 }

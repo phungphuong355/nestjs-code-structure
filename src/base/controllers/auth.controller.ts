@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, Post, Req, UseGuards } from "@nestjs/c
 import { Request } from "express";
 
 import { ReqUser, Serialize } from "../../common";
-import { AuthDto, AuthService, JwtAuthGuard, LocalAuthGuard, SignUpDto } from "../../auth";
+import { AuthDto, AuthService, JwtAuthGuard, LocalAuthGuard, Payload, SignUpDto } from "../../auth";
 
 @Controller("api/v1")
 @Serialize(AuthDto)
@@ -17,13 +17,13 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post("auth/signin")
   @HttpCode(200)
-  public signIn(@ReqUser() user) {
+  public signIn(@ReqUser() user: Payload) {
     return this._authService.signIn(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get("auth/profile")
-  public getProfile(@ReqUser() user) {
+  public getProfile(@ReqUser() user: Payload) {
     return user;
   }
 

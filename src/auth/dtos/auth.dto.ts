@@ -11,5 +11,5 @@ export class AuthDto {
   public roles: string[];
 
   @Expose()
-  public token: string;
+  public access_token: string;
 }

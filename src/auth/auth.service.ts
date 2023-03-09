@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { hash, genSalt, compare } from "bcryptjs";
 
 import { BlacklistService, CredentialService } from "../shared";
-import { JwtPayload, Payload } from "./auth.interface";
+import { JwtPayload, JwtSign, Payload } from "./auth.interface";
 import { SignUpDto } from "./dtos";
 
 @Injectable()
@@ -44,11 +44,11 @@ export class AuthService {
   }
 
   public async signIn(user: Payload) {
-    const payload: JwtPayload = { sub: user.userId, username: user.username, roles: user.roles };
+    const payload: JwtPayload = { sub: user.userId, userId: user.userId, username: user.username, roles: user.roles };
 
-    const token = this._jwtService.sign(payload);
+    const access_token = this._jwtService.sign(payload);
 
-    return { token };
+    return { access_token } as JwtSign;
   }
 
   public signOut(token: string) {

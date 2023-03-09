@@ -4,7 +4,6 @@ export interface JwtSign {
 
 export interface JwtPayload {
   sub: string;
-  userId: string;
   username: string;
   roles: string[];
 }

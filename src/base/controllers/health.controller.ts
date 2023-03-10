@@ -7,6 +7,7 @@ import {
   HttpHealthIndicator,
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
+import { Public } from "../../common";
 
 /**
  * https://docs.nestjs.com/recipes/terminus
@@ -19,6 +20,7 @@ export class HealthController {
     private _db: MongooseHealthIndicator,
   ) {}
 
+  @Public()
   @Get("health")
   @HealthCheck()
   public async check(): Promise<HealthCheckResult> {

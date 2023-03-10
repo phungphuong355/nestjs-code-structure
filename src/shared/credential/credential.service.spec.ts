@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 
 import { Credential, CredentialDocument, CredentialSchema } from "../../schema";
 import { CredentialService } from "./credential.service";
-import { cleanUpDb } from "../../../test/util";
+import { cleanUpDb } from "../../../e2e/util";
 
 describe("CredentialService", () => {
   let service: CredentialService;

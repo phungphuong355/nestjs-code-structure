@@ -5,7 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Blacklist, BlacklistSchema, Credential, CredentialSchema } from "../schema";
 import { BlacklistModule, CredentialModule } from "../shared";
 import { AuthService } from "./auth.service";
-import { cleanUpDb } from "../../test/util";
+import { cleanUpDb } from "../../e2e/util";
 import { Payload } from "./auth.interface";
 
 describe("AuthService", () => {

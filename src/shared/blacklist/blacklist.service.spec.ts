@@ -2,7 +2,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { Blacklist, BlacklistSchema } from "../../schema";
-import { cleanUpDb } from "../../../test/util";
+import { cleanUpDb } from "../../../e2e/util";
 import { BlacklistService } from "./blacklist.service";
 
 describe("CredentialService", () => {

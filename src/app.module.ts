@@ -4,11 +4,12 @@ import { APP_FILTER, APP_GUARD, APP_PIPE, RouterModule } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { LoggerModule } from "nestjs-pino";
-import { JwtAuthGuard } from "./auth";
 
+import { JwtAuthGuard } from "./auth";
 import { BaseModule } from "./base";
 import { CommonModule, ExceptionsFilter, RolesGuard } from "./common";
 import { loggerOptions } from "./config";
+import { SampleModule } from "./debug";
 import { ModelModule } from "./model";
 
 @Module({
@@ -43,10 +44,13 @@ import { ModelModule } from "./model";
     BaseModule,
     CommonModule, // Global
     ModelModule,
-    // DebugModelModule,
+    SampleModule,
     // Module Router
     // https://docs.nestjs.com/recipes/router-module
-    RouterModule.register([{ path: "model", module: ModelModule }]),
+    RouterModule.register([
+      { path: "model", module: ModelModule },
+      { path: "test", module: SampleModule },
+    ]),
   ],
   providers: [
     // Global Guard, Authentication check on all routers

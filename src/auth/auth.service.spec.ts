@@ -6,9 +6,11 @@ import { Blacklist, BlacklistSchema, Credential, CredentialSchema } from "../sch
 import { BlacklistModule, CredentialModule } from "../shared";
 import { AuthService } from "./auth.service";
 import { cleanUpDb } from "../../test/util";
+import { Payload } from "./auth.interface";
 
 describe("AuthService", () => {
   let service: AuthService;
+  let user: Payload;
   let token: string;
 
   beforeAll(async () => {
@@ -35,16 +37,17 @@ describe("AuthService", () => {
   test("signUp", async () => {
     const response = await service.signUp({ username: "phuongpt", password: "phuong3005", roles: ["ADM"] });
     expect(response.password).not.toEqual("phuong3005");
+    user = response;
   });
 
   test("signIn", async () => {
-    const response = await service.signIn({ username: "phuongpt", password: "phuong3005" });
-    expect(response).toHaveProperty("token");
-    token = response.token;
+    const response = await service.signIn(user);
+    expect(response).toHaveProperty("access_token");
+    token = response.access_token;
   });
 
   test("signOut", async () => {
     const response = await service.signOut(token);
-    expect(response.token).toEqual(token);
+    expect(response.access_token).toEqual(token);
   });
 });

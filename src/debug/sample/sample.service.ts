@@ -2,35 +2,35 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class SampleService {
-  public stepOne(foo: string): string {
+  public stepOne(foo: string) {
     return foo;
   }
 
-  public stepTwo(bar: string): string {
+  public stepTwo(bar: string) {
     return bar;
   }
 
-  public stepThree(): string {
+  public stepThree() {
     return "step3";
   }
 
-  public stepStart(): string {
+  public stepStart() {
     return this.stepChainOne();
   }
 
-  public stepChainOne(): string {
+  public stepChainOne() {
     return this.stepChainTwo();
   }
 
-  public stepChainTwo(): string {
+  public stepChainTwo() {
     return this.stepChainThree();
   }
 
-  public stepChainThree(): string {
+  public stepChainThree() {
     return this.stepChainFour();
   }
 
-  public stepChainFour(): string {
+  public stepChainFour() {
     return "OK";
   }
 }

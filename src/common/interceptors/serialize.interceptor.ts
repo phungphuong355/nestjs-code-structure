@@ -2,7 +2,7 @@
 import { NestInterceptor, ExecutionContext, CallHandler, UseInterceptors } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { plainToInstance } from "class-transformer";
+import { plainToClass } from "class-transformer";
 import { Request, Response } from "express";
 
 export interface ClassConstructor {
@@ -28,7 +28,7 @@ export class SerializerInterceptor implements NestInterceptor {
           response: {
             statusCode: context.switchToHttp().getResponse<Response>().statusCode,
             statusMessage: context.switchToHttp().getResponse<Response>().statusMessage,
-            result: plainToInstance(this._dto, data, { excludeExtraneousValues: true }),
+            result: plainToClass(this._dto, data, { excludeExtraneousValues: true }),
             timestamp: new Date().toLocaleString(),
             path: context.switchToHttp().getRequest<Request>().path,
           },
